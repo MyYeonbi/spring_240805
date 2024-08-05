@@ -1,0 +1,78 @@
+plugins {
+    id 'java'
+    id 'war'
+}
+
+group 'org.scoula'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    junitVersion = '5.10.0'
+    springVersion = '5.3.37'
+    lombokVersion = '1.18.30'
+
+}
+
+sourceCompatibility = '1.17'
+targetCompatibility = '1.17'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+dependencies {
+    // 스프링
+    implementation ("org.springframework:spring-context:${springVersion}")
+            { exclude group: 'commons-logging', module: 'commons-logging' }
+    implementation "org.springframework:spring-webmvc:${springVersion}"
+    implementation 'javax.inject:javax.inject:1'
+// AOP
+    implementation 'org.aspectj:aspectjrt:1.9.20'
+    implementation 'org.aspectj:aspectjweaver:1.9.20'
+// JSP, SERVLET, JSTL
+    implementation('javax.servlet:javax.servlet-api:4.0.1')
+    compileOnly 'javax.servlet.jsp:jsp-api:2.1'
+    implementation 'javax.servlet:jstl:1.2'
+// Logging
+    implementation 'org.slf4j:slf4j-api:2.0.9'
+    runtimeOnly 'org.slf4j:jcl-over-slf4j:2.0.9'
+    runtimeOnly 'org.slf4j:slf4j-log4j12:2.0.9'
+    implementation 'log4j:log4j:1.2.17'
+// xml내 한글 처리
+    implementation 'xerces:xercesImpl:2.12.2'
+
+
+// Jackson - Json 처리
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.4'
+
+    compileOnly('jakarta.servlet:jakarta.servlet-api:6.0.0')
+    implementation('org.glassfish.jersey.containers:jersey-container-servlet:3.1.3')
+    implementation('org.glassfish.jersey.media:jersey-media-json-jackson:3.1.3')
+    implementation('org.glassfish.jersey.inject:jersey-cdi2-se:3.1.3')
+    implementation('org.jboss.weld.se:weld-se-core:5.1.2.Final')
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+
+    // Lombok
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+    // Log4j
+    implementation 'log4j:log4j:1.2.17'
+
+    // Spring dependencies
+    implementation 'org.springframework:spring-webmvc:5.3.9'
+    implementation 'javax.servlet:javax.servlet-api:4.0.1'
+}
+
+war {
+    from 'src/main/webapp'}
+test {
+    useJUnitPlatform()
+}
